@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OOP in JavaScript</title>
+</head>
+<body>
+  <h2>Open Console to See OOP Examples</h2>
+  <script>
+    // ==============================
+    // 1. ENCAPSULATION
+    // ==============================
+    class BankAccount {
+      #balance; // private field (Encapsulation)
+
+      constructor(owner, initialBalance) {
+        this.owner = owner;
+        this.#balance = initialBalance;
+      }
+
+      deposit(amount) {
+        this.#balance += amount;
+        console.log(`${this.owner} deposited ${amount}. Balance: ${this.#balance}`);
+      }
+
+      withdraw(amount) {
+        if (amount <= this.#balance) {
+          this.#balance -= amount;
+          console.log(`${this.owner} withdrew ${amount}. Balance: ${this.#balance}`);
+        } else {
+          console.log(`Insufficient balance for ${this.owner}`);
+        }
+      }
+
+      getBalance() {
+        return this.#balance;
+      }
+    }
+
+    const acc1 = new BankAccount("Alice", 1000);
+    acc1.deposit(500);
+    acc1.withdraw(200);
+    console.log("Balance (using getter):", acc1.getBalance());
+
+    // ==============================
+    // 2. INHERITANCE
+    // ==============================
+    class Animal {
+      constructor(name) {
+        this.name = name;
+      }
+      speak() {
+        console.log(`${this.name} makes a sound.`);
+      }
+    }
+
+    class Dog extends Animal {
+      speak() {
+        console.log(`${this.name} barks!`);
+      }
+    }
+
+    class Cat extends Animal {
+      speak() {
+        console.log(`${this.name} meows!`);
+      }
+    }
+
+    const dog = new Dog("Buddy");
+    const cat = new Cat("Kitty");
+
+    dog.speak();
+    cat.speak();
+
+    // ==============================
+    // 3. POLYMORPHISM
+    // ==============================
+    const animals = [new Dog("Rex"), new Cat("Mittens"), new Animal("Generic")];
+
+    animals.forEach(animal => {
+      animal.speak(); // Polymorphic behavior
+    });
+
+    // ==============================
+    // 4. ABSTRACTION
+    // ==============================
+    class Shape {
+      constructor(name) {
+        if (this.constructor === Shape) {
+          throw new Error("Abstract classes can't be instantiated.");
+        }
+        this.name = name;
+      }
+
+      // Abstract method (to be implemented by subclasses)
+      area() {
+        throw new Error("Method 'area()' must be implemented.");
+      }
+    }
+
+    class Circle extends Shape {
+      constructor(radius) {
+        super("Circle");
+        this.radius = radius;
+      }
+      area() {
+        return Math.PI * this.radius * this.radius;
+      }
+    }
+
+    class Rectangle extends Shape {
+      constructor(width, height) {
+        super("Rectangle");
+        this.width = width;
+        this.height = height;
+      }
+      area() {
+        return this.width * this.height;
+      }
+    }
+
+    const circle = new Circle(5);
+    const rectangle = new Rectangle(4, 6);
+
+    console.log(`Circle area: ${circle.area().toFixed(2)}`);
+    console.log(`Rectangle area: ${rectangle.area()}`);
+  </script>
+</body>
+</html>
